@@ -49,14 +49,14 @@ inputs:
       If you are running multiple DCAs, keep the client order id different.
 
 
-      Default: ${{ github.action }}-${{ github.job }}
+      Default: `github.action`-`github.job`
     default: ${{ github.action }}-${{ github.job }}
   record-path:
     description: >
       The file to record the costs, used for calculation of total cost.
 
 
-      Default: ${{ github.action }}-${{ github.job }}.csv
+      Default: `github.action`-`github.job`.csv
     default: ${{ github.action }}-${{ github.job }}.csv
 runs:
   using: 'node12'
