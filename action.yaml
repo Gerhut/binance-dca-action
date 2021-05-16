@@ -55,7 +55,7 @@ inputs:
 
       Default: ${{ github.action }}-${{ github.job }}
     required: false
-    default: ${{ github.action }}-${{ github.job }}
+    default: '${{ github.action }}-${{ github.job }}'
   record-path:
     description: >
       The file to record the costs, used for calculation of total cost.
@@ -63,7 +63,7 @@ inputs:
 
       Default: ${{ github.action }}-${{ github.job }}.csv
     required: false
-    default: ${{ github.action }}-${{ github.job }}.csv
+    default: '${{ github.action }}-${{ github.job }}.csv'
 runs:
   using: 'node12'
   main: 'action.cjs'
