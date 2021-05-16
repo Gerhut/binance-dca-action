@@ -8,7 +8,6 @@ inputs:
 
 
       Default: https://api.binance.com
-    required: false
     default: https://api.binance.com
   api-key:
     description: >
@@ -28,7 +27,6 @@ inputs:
 
 
       Default: BTCUSDT (buy BTC with USDT)
-    required: false
     default: BTCUSDT
   quote-quantity:
     description: >
@@ -36,7 +34,6 @@ inputs:
 
 
       Default: 10 (buy BTC with 10 USDT each time, if the symbol is BTCUSDT)
-    required: false
     default: '10'
   target-profit:
     description: >
@@ -44,7 +41,6 @@ inputs:
 
 
       Default: 0.01 (the selling order will be published as 1.01 times total cost)
-    required: false
     default: '0.01'
   client-order-id:
     description: >
@@ -54,16 +50,14 @@ inputs:
 
 
       Default: ${{ github.action }}-${{ github.job }}
-    required: false
-    default: '${{ github.action }}-${{ github.job }}'
+    default: ${{ github.action }}-${{ github.job }}
   record-path:
     description: >
       The file to record the costs, used for calculation of total cost.
 
 
       Default: ${{ github.action }}-${{ github.job }}.csv
-    required: false
-    default: '${{ github.action }}-${{ github.job }}.csv'
+    default: ${{ github.action }}-${{ github.job }}.csv
 runs:
   using: 'node12'
   main: 'action.cjs'
