@@ -21,11 +21,11 @@ on:
         - cron: '0 * * * *' # Invest per hour
 
 jobs:
-    main:
+    dca:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - uses: Gerhut/binance-dca-action@main
+            - uses: Gerhut/binance-dca-action@v1
                 with:
                     api-key: {{ secrets.BINANCE_API_KEY }}
                     secret-key: {{ secrets.BINANCE_SECRET_KEY }}
