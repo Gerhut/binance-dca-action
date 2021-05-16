@@ -1,0 +1,72 @@
+name: Binance DCA
+author: George Cheng <Gerhut@GMail.com>
+description: Invest cryptocurrency on Binance using GitHub actions.
+inputs:
+  endpoint:
+    description: >
+      Binance API endpoint.
+
+
+      Default: https://api.binance.com
+    required: false
+    default: https://api.binance.com
+  api-key:
+    description: >
+      Binance API key.
+
+      Created in https://www.binance.com/en/my/settings/api-management
+    required: true
+  secret-key:
+    description: >
+      Binance secret key.
+
+      Created in https://www.binance.com/en/my/settings/api-management
+    required: true
+  symbol:
+    description: >
+      Symbol to invest.
+
+
+      Default: BTCUSDT (buy BTC with USDT)
+    required: false
+    default: BTCUSDT
+  quote-quantity:
+    description: >
+      Quote quantity cost each time.
+
+
+      Default: 10 (buy BTC with 10 USDT each time, if the symbol is BTCUSDT)
+    required: false
+    default: '10'
+  target-profit:
+    description: >
+      Target profit of the DCA.
+
+
+      Default: 0.01 (the selling order will be published as 1.01 times total cost)
+    required: false
+    default: '0.01'
+  client-order-id:
+    description: >
+      Unique client order id of the trade.
+
+      If you are running multiple DCAs, keep the client order id different.
+
+
+      Default: ${{ github.action }}-${{ github.job }}
+    required: false
+    default: ${{ github.action }}-${{ github.job }}
+  record-path:
+    description: >
+      The file to record the costs, used for calculation of total cost.
+
+
+      Default: ${{ github.action }}-${{ github.job }}.csv
+    required: false
+    default: ${{ github.action }}-${{ github.job }}.csv
+runs:
+  using: 'node12'
+  main: 'action.cjs'
+branding:
+  icon: stop-circle
+  color: yellow
