@@ -32,8 +32,8 @@ jobs:
             - run: |
                 git config user.name "GitHub Actions"
                 git config user.email actions@github.com
-                git add .
-                git commit -m "Update DCA records"
+                git add --all
+                git diff-index --quiet HEAD || git commit --message="Update DCA records"
                 git push
 ```
 
