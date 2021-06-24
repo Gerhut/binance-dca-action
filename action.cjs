@@ -9775,7 +9775,7 @@ async function start({
   const minNotional = info.filters.filter(({ filterType }) => filterType === 'MIN_NOTIONAL')[0];
 
   if (minNotional) {
-    targetPrice = BigNumber.min(targetPrice, new BigNumber(minNotional.minNotional).dividedBy(targetQuantity));
+    targetPrice = BigNumber.max(targetPrice, new BigNumber(minNotional.minNotional).dividedBy(targetQuantity));
     console.log(
       'Min notional filter:',
       `Will sell ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`
