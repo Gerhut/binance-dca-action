@@ -9768,20 +9768,27 @@ async function start({
 
   let targetQuantity = BigNumber.min(totalQuantity, freeQuantity);
 
-  for (const filter of info.filters) {
-    if (filter.filterType === 'PRICE_FILTER') {
-      targetPrice = targetPrice
-        .minus(filter.minPrice)
-        .dividedToIntegerBy(filter.tickSize)
-        .multipliedBy(filter.tickSize)
-        .plus(filter.minPrice);
-    } else if (filter.filterType === 'LOT_SIZE') {
-      targetQuantity = targetQuantity
-        .minus(filter.minQty)
-        .dividedToIntegerBy(filter.stepSize)
-        .multipliedBy(filter.stepSize)
-        .plus(filter.minQty);
-    }
+  const priceFilter = info.filters.filter(({ filterType }) => filterType === 'PRICE_FILTER')[0];
+  const lotSize = info.filters.filter(({ filterType }) => filterType === 'LOT_SIZE')[0];
+  const minNotional = info.filters.filter(({ filterType }) => filterType === 'MIN_NOTIONAL')[0];
+
+  if (minNotional) {
+    targetPrice = BigNumber.min(targetPrice, new BigNumber(minNotional.minNotional).dividedBy(targetQuantity));
+  }
+  if (priceFilter) {
+    targetPrice = targetPrice
+      .minus(priceFilter.minPrice)
+      .dividedToIntegerBy(priceFilter.tickSize)
+      .plus(1)
+      .multipliedBy(priceFilter.tickSize)
+      .plus(priceFilter.minPrice);
+  }
+  if (lotSize) {
+    targetQuantity = targetQuantity
+      .minus(lotSize.minQty)
+      .dividedToIntegerBy(lotSize.stepSize)
+      .multipliedBy(lotSize.stepSize)
+      .plus(lotSize.minQty);
   }
 
   await binance.newOrder({
