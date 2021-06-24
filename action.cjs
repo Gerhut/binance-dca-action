@@ -6898,8 +6898,6 @@ var axios = axios$2.exports;
 
 const debug = Debug('Binance');
 
-Debug.enable('Binance');
-
 class Binance {
   /**
    * @param {object} options
