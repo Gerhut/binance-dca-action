@@ -9768,12 +9768,18 @@ async function start({
 
   let targetQuantity = BigNumber.min(totalQuantity, freeQuantity);
 
+  console.log(`Will sell ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`);
+
   const priceFilter = info.filters.filter(({ filterType }) => filterType === 'PRICE_FILTER')[0];
   const lotSize = info.filters.filter(({ filterType }) => filterType === 'LOT_SIZE')[0];
   const minNotional = info.filters.filter(({ filterType }) => filterType === 'MIN_NOTIONAL')[0];
 
   if (minNotional) {
     targetPrice = BigNumber.min(targetPrice, new BigNumber(minNotional.minNotional).dividedBy(targetQuantity));
+    console.log(
+      'Min notional filter:',
+      `Will sell ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`
+    );
   }
   if (priceFilter) {
     targetPrice = targetPrice
@@ -9782,6 +9788,10 @@ async function start({
       .plus(1)
       .multipliedBy(priceFilter.tickSize)
       .plus(priceFilter.minPrice);
+    console.log(
+      'Price filter:',
+      `Will sell ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`
+    );
   }
   if (lotSize) {
     targetQuantity = targetQuantity
@@ -9789,6 +9799,10 @@ async function start({
       .dividedToIntegerBy(lotSize.stepSize)
       .multipliedBy(lotSize.stepSize)
       .plus(lotSize.minQty);
+    console.log(
+      'Lot size filter:',
+      `Will sell ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`
+    );
   }
 
   await binance.newOrder({
@@ -9800,6 +9814,7 @@ async function start({
     price: targetPrice.toString(),
     newClientOrderId: clientOrderId
   });
+
   console.log(`Selling ${targetQuantity} ${info.baseAsset} by ${targetPrice} ${info.quoteAsset}/${info.baseAsset}`);
 }
 
