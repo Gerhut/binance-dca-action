@@ -6898,6 +6898,8 @@ var axios = axios$2.exports;
 
 const debug = Debug('Binance');
 
+Debug.enable('Binance');
+
 class Binance {
   /**
    * @param {object} options
@@ -9646,6 +9648,8 @@ class Record {
     const stringifier = stringify();
     stringifier.pipe(require$$0$1.createWriteStream(this._path, { flags }));
     stringifier.end([new Date().toISOString(), quantity, quoteQuantity]);
+
+    await require$$1$1.promisify(require$$0$2.finished)(stringifier);
   }
 
   /**
