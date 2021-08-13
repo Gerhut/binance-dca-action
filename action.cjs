@@ -9773,6 +9773,10 @@ async function start({
   const minNotional = info.filters.filter(({ filterType }) => filterType === 'MIN_NOTIONAL')[0];
 
   if (lotSize) {
+    if (targetQuantity.lt(lotSize.minQty)) {
+      console.log('Log size filter:', `${targetQuantity} less then ${lotSize.minQty}, skip`);
+      return
+    }
     targetQuantity = targetQuantity
       .minus(lotSize.minQty)
       .dividedToIntegerBy(lotSize.stepSize)
@@ -9791,6 +9795,10 @@ async function start({
     );
   }
   if (priceFilter) {
+    if (targetPrice.lt(priceFilter.minPrice)) {
+      console.log('Price Filter:', `${targetPrice} less then ${priceFilter.minPrice}, skip`);
+      return
+    }
     targetPrice = targetPrice
       .minus(priceFilter.minPrice)
       .dividedToIntegerBy(priceFilter.tickSize)
