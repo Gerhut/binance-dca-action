@@ -1,5 +1,8 @@
 import { getInput } from '@actions/core'
+import Debug from 'debug'
 import start from './lib/index.js'
+
+Debug.enable('*')
 
 start({
   endpoint: getInput('endpoint', { required: true }),
